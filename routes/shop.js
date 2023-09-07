@@ -8,4 +8,8 @@ router.get('', (req, res) => {
   res.sendFile(path.join(rootDir, 'views', 'shop.html'))
 })
 
+router.post('/add-product', (req, res) => {
+  res.sendFile(path.join(rootDir, 'views', 'shop.html'))
+})
+
 module.exports = router
