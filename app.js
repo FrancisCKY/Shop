@@ -2,12 +2,11 @@ const express = require('express')
 const path = require('path')
 const app = express()
 const bodyParser = require('body-parser')
-const { engine } = require('express-handlebars')
 const adminData = require('./routes/admin')
 const shopRoutes = require('./routes/shop')
 
-app.engine('.hbs', engine({ extname: '.hbs' }));
-app.set('view engine', '.hbs');
+
+app.set('view engine', 'ejs');
 app.set('views', './views');
 
 app.use(express.static(path.join(__dirname, 'public')))
