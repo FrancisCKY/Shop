@@ -6,6 +6,8 @@ body {
 
 main {
   padding: 1rem;
+  display: grid;
+  place-items: center
 }
 
 .main-header {
@@ -42,4 +44,19 @@ main {
 .main-header__item a:active,
 .main-header__item a.active {
   color: rgb(110, 36, 160)
+}
+
+.grid {
+  vertical-align: middle;
+  justify-content: center;
+}
+
+.card_product-item {
+  border: gray 1px solid;
+  padding: 5px;
+}
+
+.card__image img {
+  width: 200px;
+  height: 100px;
 }
