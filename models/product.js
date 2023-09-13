@@ -1,9 +1,12 @@
-const fs = require('fs')
-const path = require('path')
+const fs = require('fs');
+const path = require('path');
 
 module.exports = class Product {
-  constructor(t) {
-    this.title = t
+  constructor(title, imageUrl, price, description) {
+    this.title = title
+    this.imageUrl = imageUrl
+    this.price = price
+    this.description = description
   }
 
   save() {
@@ -11,18 +14,25 @@ module.exports = class Product {
       path.dirname(require.main.filename),
       'data',
       'products.json'
-    )
+    );
 
-    fs.readFile(p, (err, fileContent) => {
-      let products = []
+    let products = [];
+    try {
+      const fileContent = fs.readFileSync(p, 'utf-8');
       if (fileContent) {
-        products = JSON.parse(fileContent)
+        products = JSON.parse(fileContent);
       }
-      products.push(this)
-      fs.writeFile(p, JSON.stringify(products), err => {
-        console.log(err)
-      })
-    })
+    } catch (error) {
+      console.log('Error reading file:', error);
+    }
+
+    products.push(this);
+
+    try {
+      fs.writeFileSync(p, JSON.stringify(products));
+    } catch (error) {
+      console.log('Error writing file:', error);
+    }
   }
 
   static fetchAll(cb) {
@@ -30,12 +40,14 @@ module.exports = class Product {
       path.dirname(require.main.filename),
       'data',
       'products.json'
-    )
-    fs.readFile(p, (err, fileContent) => {
-      if (err) {
-        cb([])
-      }
-      cb(JSON.parse(fileContent))
-    })
+    );
+
+    try {
+      const fileContent = fs.readFileSync(p, 'utf-8');
+      cb(JSON.parse(fileContent));
+    } catch (error) {
+      cb([]);
+      console.log('Error reading file:', error);
+    }
   }
-}
+};

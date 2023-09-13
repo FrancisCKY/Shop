@@ -14,16 +14,19 @@
                   </h1>
                 </header>
                 <div class="card__image">
-                  <img
-                    src="https://th.bing.com/th/id/R.4600155de604dd6b275901733647f647?rik=ti3IFO1tcXfnLw&pid=ImgRaw&r=0"
-                    alt="a book">
+                  <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
                 </div>
                 <div class="card__content">
-                  <h2 class="product__price">$19.99</h2>
-                  <p class="product__description">A very interesting book about so many even more interesting things</p>
+                  <h2 class="product__price">$<%= product.price %>
+                  </h2>
+                  <p class="product__description">
+                    <%= product.description %>
+                  </p>
                 </div>
                 <div class="card__actions">
-                  <button class="btn">Add to Cart</button>
+                  <form action="/add-to-cart" method="post">
+                    <button class="button">Add to Cart</button>
+                  </form>
                 </div>
               </article>
               <% } %>
