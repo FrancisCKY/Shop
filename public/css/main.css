@@ -7,7 +7,7 @@ body {
 main {
   padding: 1rem;
   display: grid;
-  place-items: center
+  place-items: center;
 }
 
 .main-header {
@@ -46,7 +46,8 @@ main {
   color: rgb(110, 36, 160)
 }
 
-.grid {
+.container {
+  display: flex;
   vertical-align: middle;
   justify-content: center;
 }
@@ -80,5 +81,4 @@ main {
 
 .centered-button {
   text-align: center;
-  /* 對齊方式：置中 */
 }
