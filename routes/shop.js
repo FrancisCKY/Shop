@@ -10,6 +10,8 @@ router.get('/products', shopController.getProducts)
 
 router.get('/cart', shopController.getCart)
 
+router.get('/orders', shopController.getOrders)
+
 router.get('/check', shopController.getCheckout)
 
 module.exports = router
