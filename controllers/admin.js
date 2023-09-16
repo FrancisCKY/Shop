@@ -65,36 +65,6 @@ exports.getProducts = (req, res) => {
 
 exports.postDeleteProducts = (req, res, next) => {
   const prodId = req.body.productId
-
-  const p = path.join(
-    path.dirname(require.main.filename),
-    'data',
-    'products.json'
-  )
-
-  fs.readFile(p, (err, fileContent) => {
-    if (err) {
-      console.log('Error reading file:', err)
-      return res.redirect('/')
-    }
-
-    let products = []
-
-    if (fileContent) {
-      products = JSON.parse(fileContent)
-    }
-
-    const productIndex = products.findIndex(prod => prod.id === prodId)
-
-    if (productIndex !== -1) {
-      products.splice(productIndex, 1)
-
-      fs.writeFile(p, JSON.stringify(products), err => {
-        if (err) {
-          console.log('Error writing file:', err)
-        }
-      })
-    }
-    res.redirect('/admin/products')
-  })
+  Product.deleteByID(prodId)
+  res.redirect('/admin/products')
 }

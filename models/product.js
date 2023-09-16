@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const Cart = require('./cart')
 
 module.exports = class Product {
   constructor(id, title, imageUrl, price, description) {
@@ -84,26 +85,38 @@ module.exports = class Product {
     }
   }
 
-  static deleteByID(id, cb) {
+  static deleteByID(id) {
     const p = path.join(
       path.dirname(require.main.filename),
       'data',
       'products.json'
     )
+    let products = []
+
     try {
       const fileContent = fs.readFileSync(p, 'utf-8')
-      const prodcuts = JSON.parse(fileContent)
-      const productIndex = prodcuts.findIndex(p => p.id === id)
+      const products = JSON.parse(fileContent)
+      const productIndex = products.findIndex(prod => prod.id === id)
       if (productIndex !== -1) {
-        prodcuts.splice(productIndex, 1)
-        fs.writeFileSync(p, JSON.stringify(prodcuts, null, 2))
-        cb(true)
-      } else {
-        cb(false)
+        const product = products[productIndex]
+        const productPrice = product.price
+        products.splice(productIndex, 1)
+        fs.writeFileSync(p, JSON.stringify(products), err => {
+          if (err) {
+            console.log('Error writing file:', err)
+            return callbackify(err)
+          }
+        })
+        Cart.deleteProduct(id, productPrice, err => {
+          if (err) {
+            return callback(err)
+          }
+          callback(null)
+        })
       }
     } catch (error) {
       console.log('Error deleting file:', error)
-      cb(false)
+      callback(error)
     }
   }
 };
