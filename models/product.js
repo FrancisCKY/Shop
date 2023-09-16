@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = class Product {
-  constructor(title, imageUrl, price, description) {
+  constructor(id, title, imageUrl, price, description) {
+    this.id = id
     this.title = title
     this.imageUrl = imageUrl
     this.price = price
@@ -10,7 +11,6 @@ module.exports = class Product {
   }
 
   save() {
-    this.id = Math.random().toString()
     const p = path.join(
       path.dirname(require.main.filename),
       'data',
@@ -18,6 +18,7 @@ module.exports = class Product {
     );
 
     let products = [];
+
     try {
       const fileContent = fs.readFileSync(p, 'utf-8');
       if (fileContent) {
@@ -27,14 +28,30 @@ module.exports = class Product {
       console.log('Error reading file:', error);
     }
 
-    products.push(this);
+    if (this.id) {
+      const existingProductIndex = products.findIndex(
+        prod => prod.id === this.id
+      );
+      if (existingProductIndex !== -1) {
+        products[existingProductIndex] = this;
+        fs.writeFile(p, JSON.stringify(products), err => {
+          if (err) {
+            console.log(err);
+          }
+        });
+      }
+    } else {
+      this.id = Math.random().toString();
+      products.push(this);
 
-    try {
-      fs.writeFileSync(p, JSON.stringify(products));
-    } catch (error) {
-      console.log('Error writing file:', error);
+      try {
+        fs.writeFileSync(p, JSON.stringify(products));
+      } catch (error) {
+        console.log('Error writing file:', error);
+      }
     }
   }
+
 
   static fetchAll(cb) {
     const p = path.join(
