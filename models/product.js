@@ -83,4 +83,27 @@ module.exports = class Product {
       console.log('Error reading file:', error)
     }
   }
+
+  static deleteByID(id, cb) {
+    const p = path.join(
+      path.dirname(require.main.filename),
+      'data',
+      'products.json'
+    )
+    try {
+      const fileContent = fs.readFileSync(p, 'utf-8')
+      const prodcuts = JSON.parse(fileContent)
+      const productIndex = prodcuts.findIndex(p => p.id === id)
+      if (productIndex !== -1) {
+        prodcuts.splice(productIndex, 1)
+        fs.writeFileSync(p, JSON.stringify(prodcuts, null, 2))
+        cb(true)
+      } else {
+        cb(false)
+      }
+    } catch (error) {
+      console.log('Error deleting file:', error)
+      cb(false)
+    }
+  }
 };
