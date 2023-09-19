@@ -33,14 +33,16 @@ exports.getEditProducts = (req, res, next) => {
     return res.redirect('/')
   }
   const prodId = req.params.productId
-  Product.findByID(prodId, product => {
-    res.render('admin/edit-product', {
-      pageTitle: 'Edit product',
-      path: '/admin/edit-product',
-      editing: editMode,
-      product: product
+  Product.findByPk(prodId)
+    .then(product => {
+      res.render('admin/edit-product', {
+        pageTitle: 'Edit product',
+        path: '/admin/edit-product',
+        editing: editMode,
+        product: product
+      })
     })
-  })
+    .catch((err) => console.log(err))
 }
 
 exports.postEditProducts = (req, res, next) => {
@@ -49,15 +51,21 @@ exports.postEditProducts = (req, res, next) => {
   const updatedPrice = req.body.price
   const updatedImageUrl = req.body.imageUrl
   const updatedDesc = req.body.description
-  const updatedProdcut = new Product(
-    prodId,
-    updatedTitle,
-    updatedImageUrl,
-    updatedPrice,
-    updatedDesc
-  )
-  updatedProdcut.save()
-  res.redirect('/admin/products')
+  Product.findByPk(prodId)
+    .then(product => {
+      product.title = updatedTitle
+      product.price = updatedPrice
+      product.imageUrl = updatedImageUrl
+      product.description = updatedDesc
+      return product.save()
+    })
+    .then(() => {
+      console.log('Edited successfully')
+      res.redirect('/admin/products')
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
 exports.getProducts = (req, res) => {
