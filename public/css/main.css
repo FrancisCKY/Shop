@@ -82,3 +82,7 @@ main {
 .centered-button {
   text-align: center;
 }
+
+.card__actions {
+  display: flex;
+}

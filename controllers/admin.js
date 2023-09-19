@@ -1,6 +1,4 @@
 const Product = require('../models/product')
-const fs = require('fs')
-const path = require('path');
 
 exports.getAddProducts = (req, res, next) => {
   res.render('admin/edit-product', {
@@ -63,13 +61,15 @@ exports.postEditProducts = (req, res, next) => {
 }
 
 exports.getProducts = (req, res) => {
-  Product.fetchAll(products => {
-    res.render('admin/products', {
-      prods: products,
-      pageTitle: 'Admin Products',
-      path: '/admin/products',
+  Product.findAll()
+    .then(products => {
+      res.render('admin/products', {
+        prods: products,
+        pageTitle: 'Admin Products',
+        path: '/admin/products',
+      })
     })
-  })
+    .catch((err) => console.log(err))
 }
 
 exports.postDeleteProducts = (req, res, next) => {
