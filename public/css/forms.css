@@ -26,3 +26,16 @@
   outline-color: #00695c;
   color: #00695c;
 }
+
+.cart__item {
+  display: flex;
+  align-items: center;
+  box-shadow: 3px 3px 5px gray;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 5px
+}
+
+.cart__item h2 {
+  margin: 0 300px;
+}
