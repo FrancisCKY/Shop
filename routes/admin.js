@@ -6,14 +6,14 @@ const router = express.Router()
 
 router.get('/add-product', adminController.getAddProducts)
 
-router.get('/products', adminController.getProducts)
+// router.get('/products', adminController.getProducts)
 
 router.post('/add-product', adminController.postAddProducts)
 
-router.get('/edit-product/:productId', adminController.getEditProducts)
+// router.get('/edit-product/:productId', adminController.getEditProducts)
 
-router.post('/edit-product', adminController.postEditProducts)
+// router.post('/edit-product', adminController.postEditProducts)
 
-router.post('/delete-product', adminController.postDeleteProducts)
+// router.post('/delete-product', adminController.postDeleteProducts)
 
 module.exports = router
