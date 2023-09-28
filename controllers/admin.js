@@ -71,17 +71,17 @@ exports.postAddProducts = (req, res, next) => {
 //     })
 // }
 
-// exports.getProducts = (req, res) => {
-//   req.user.getProducts()
-//     .then(products => {
-//       res.render('admin/products', {
-//         prods: products,
-//         pageTitle: 'Admin Products',
-//         path: '/admin/products',
-//       })
-//     })
-//     .catch((err) => console.log(err))
-// }
+exports.getProducts = (req, res) => {
+  Product.fetchAll()
+    .then(products => {
+      res.render('admin/products', {
+        prods: products,
+        pageTitle: 'Admin Products',
+        path: '/admin/products',
+      })
+    })
+    .catch((err) => console.log(err))
+}
 
 // exports.postDeleteProducts = (req, res, next) => {
 //   const prodId = req.body.productId
