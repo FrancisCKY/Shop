@@ -79,26 +79,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
 exports.postOrder = (req, res, next) => {
   let fetchedCart
   req.user
-    .getCart()
-    .then(cart => {
-      fetchedCart = cart
-      return cart.getProducts()
-    })
-    .then(products => {
-      return req.user
-        .createOrder()
-        .then(order => {
-          return Promise.all(products.map(product => {
-            return order.addProduct(product, {
-              through: { quantity: product.cartItem.quantity }
-            });
-          }));
-        })
-        .catch(err => console.log(err))
-    })
-    .then(result => {
-      return fetchedCart.setProducts(null)
-    })
+    .addOrder()
     .then(result => {
       res.redirect('/orders')
     })
